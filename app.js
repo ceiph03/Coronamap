@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const _ = require("lodash");
+const https = require("https");
 
 /*
 const homeStartingContent = "Lacus vel facilisis volutpat est velit egestas dui id ornare. Semper auctor neque vitae tempus quam. Sit amet cursus sit amet dictum sit amet justo. Viverra tellus in hac habitasse. Imperdiet proin fermentum leo vel orci porta. Donec ultrices tincidunt arcu non sodales neque sodales ut. Mattis molestie a iaculis at erat pellentesque adipiscing. Magnis dis parturient montes nascetur ridiculus mus mauris vitae ultricies. Adipiscing elit ut aliquam purus sit amet luctus venenatis lectus. Ultrices vitae auctor eu augue ut lectus arcu bibendum at. Odio euismod lacinia at quis risus sed vulputate odio ut. Cursus mattis molestie a iaculis at erat pellentesque adipiscing.";
@@ -18,20 +19,34 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
+app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(express.static("public"));
 
+
+
 let posts = [];
 
 app.get("/", function(req, res) {
+
+const url = "https://data.cdc.gov/api/views/mvsw-zuaf/rows.json?accessType=DOWNLOAD"
+
+
+https.get(url, function(response){
+  response.on("data", function(data){
+    console.log(JSON.parse(data[1]))
+  })
+})
+
   res.render("home", {
     starting: startingword,
     posts: posts
   })
   // console.log(posts);
 })
+
 
 /*
 
