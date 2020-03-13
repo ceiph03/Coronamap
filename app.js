@@ -26,7 +26,7 @@ let posts = [];
 // var locations = require("./JSON/data.json")
 let locations = [] // global var
 CSVToJSON().fromFile("./CSV/03-11-2020.csv").then(source => {
-      for (i = 0; i < source.length; i++) {
+      for (i = 1; i < source.length; i++) {
         for (j = 0; j < source[i].Confirmed; j++) {
           locations.push("{lat: " + source[i].Latitude + ", lng: " + source[i].Longitude + "}")    }
   }

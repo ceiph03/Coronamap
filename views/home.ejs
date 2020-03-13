@@ -6,6 +6,7 @@
   /* media="screen"> */
   #map{
     height: 100%;
+
     /* width:100%; */
   }
   html, body {
@@ -41,9 +42,7 @@
 
 // markers divided parts less than 50k
 var loc = []
-var loc1 = []
-loc.push(<%=locations.slice(0,50000)%>)
-loc1.push(<%=locations.slice(50000,100000)%>)
+loc.push(<%=locations%>)
 
  // const n = loc.length
  // const a = Math.floor(n / 50000) //no of groups
@@ -52,19 +51,9 @@ loc1.push(<%=locations.slice(50000,100000)%>)
    var markers = loc.map(function(location, i) {
     return new google.maps.Marker({
       position: location,
-      label: {
-        text: labels[i % labels.length],
-        fontSize: "30px"
-      }
+      label: labels[i % labels.length]
       });
     });
-
-    var markers = loc1.map(function(location, i) {
-     return new google.maps.Marker({
-       position: location,
-       label: labels[i % labels.length]
-       });
-     });
 
 // Add a marker clusterer to manage the markers.
    var markerCluster = new MarkerClusterer(map, markers,
