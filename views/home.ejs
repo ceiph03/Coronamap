@@ -2,10 +2,16 @@
 
 <head>
 
-<style media="screen">
+<style>
+  /* media="screen"> */
   #map{
-    height:400px;
-    width:100%;
+    height: 100%;
+    /* width:100%; */
+  }
+  html, body {
+    height: 95%;
+    margin: 0;
+    padding: 0;
   }
 </style>
 
@@ -57,12 +63,10 @@ loc1.push(<%=locations.slice(50000,100000)%>)
        });
      });
 
-
 // Add a marker clusterer to manage the markers.
    var markerCluster = new MarkerClusterer(map, markers,
        {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
  }
-
 
  // locations.push(<%= locations %>)
 //     var locations = [
@@ -79,7 +83,5 @@ loc1.push(<%=locations.slice(50000,100000)%>)
       <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3gCGu6LVjICMz1Fv_f2gXPmqDAsH4ZBQ&callback=initMap">
       </script>
-
-    </body>
-
-<%- include('partials/footer') -%>
+</body>
+    <%- include('partials/footer') -%>
