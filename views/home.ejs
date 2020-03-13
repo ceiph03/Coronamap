@@ -9,9 +9,9 @@
     /* width:100%; */
   }
   html, body {
-    height: 95%;
+    height: 100%;
     margin: 0;
-    padding: 0;
+    padding-bottom: 30px;
   }
 </style>
 
@@ -52,7 +52,10 @@ loc1.push(<%=locations.slice(50000,100000)%>)
    var markers = loc.map(function(location, i) {
     return new google.maps.Marker({
       position: location,
-      label: labels[i % labels.length]
+      label: {
+        text: labels[i % labels.length],
+        fontSize: "30px"
+      }
       });
     });
 
