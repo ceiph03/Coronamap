@@ -15,9 +15,6 @@
 
 <h1>Please stay away from coronavirus...</h1>
 
-
-<!-- <p><%=starting%></p> -->
-
 <div id="map"></div>
 
   <script>
@@ -36,44 +33,43 @@
 
     var labels = '1';
 
-// markers
-    var markers = locations.map(function(location, i) {
-  return new google.maps.Marker({
-    position: location,
-    label: labels[i % labels.length]
-  });
-});
+// markers divided parts less than 50k
+var loc = []
+var loc1 = []
+loc.push(<%=locations.slice(0,50000)%>)
+loc1.push(<%=locations.slice(50000,100000)%>)
+
+ // const n = loc.length
+ // const a = Math.floor(n / 50000) //no of groups
+ // const b = n % 50000 //remainder
+
+   var markers = loc.map(function(location, i) {
+    return new google.maps.Marker({
+      position: location,
+      label: labels[i % labels.length]
+      });
+    });
+
+    var markers = loc1.map(function(location, i) {
+     return new google.maps.Marker({
+       position: location,
+       label: labels[i % labels.length]
+       });
+     });
+
 
 // Add a marker clusterer to manage the markers.
    var markerCluster = new MarkerClusterer(map, markers,
        {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
  }
 
- var locations = []
- locations.push(<%= locations %>)
+
+ // locations.push(<%= locations %>)
 //     var locations = [
 //     {lat: 40, lng: -96.887},
 //     {lat: 40, lng: -96.887}
 // ]
 
-  //   var infoWindow = new google.maps.InfoWindow({
-  //     content: '<h1> contaminated. </h1>'
-  //   })
-  //
-  //   infoWindow.open(map, marker);
-  //
-
-// addMarker(locations[i]);
-// <!--
-//   // Add marker function
-// function addMarker(coords){
-//     var marker = new google.maps.Marker({
-//       position: coords,
-//       map: map,
-//       label: "Infected"
-//     });
-// }
-//   } -->
       </script>
 
       <!-- Replace following script src -->
