@@ -26,7 +26,7 @@ let posts = [];
 // var locations = require("./JSON/data.json")
 let locations = [] // global var
 let cases = [] // global var
-CSVToJSON().fromFile("./COVID-19/csse_covid_19_data/csse_covid_19_daily_reports/03-13-2020.csv").then(source => {
+CSVToJSON().fromFile("./csv/03-13-2020.csv").then(source => {
       for (i = 0; i < source.length; i++) {
         locations.push("{lat: " + source[i].Latitude + ", lng: " + source[i].Longitude + "}")
       }
