@@ -12,15 +12,13 @@
   html, body {
     height: 100%;
     margin: 0;
-    padding-bottom: 30px;
+    padding-bottom: 0px;
   }
 </style>
 
 </head>
 
 <body>
-
-<h1>Please stay away from coronavirus...</h1>
 
 <div id="map"></div>
 
@@ -38,34 +36,50 @@
     var map = new google.maps.Map(
         document.getElementById('map'), options);
 
-    var labels = '1';
 
-// markers divided parts less than 50k
+// labels and makers locations
+var labels = [];
+labels.push(<%=cases%>);
+console.log(labels.slice(1,5));
+
 var loc = []
 loc.push(<%=locations%>)
-
- // const n = loc.length
- // const a = Math.floor(n / 50000) //no of groups
- // const b = n % 50000 //remainder
 
    var markers = loc.map(function(location, i) {
     return new google.maps.Marker({
       position: location,
-      label: labels[i % labels.length]
+      label: labels[i].toString()
       });
     });
 
 // Add a marker clusterer to manage the markers.
    var markerCluster = new MarkerClusterer(map, markers,
+       // {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
        {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
- }
 
- // locations.push(<%= locations %>)
-//     var locations = [
-//     {lat: 40, lng: -96.887},
-//     {lat: 40, lng: -96.887}
-// ]
+ markerCluster.setCalculator(function(markers, numStyles) {
+  var val=0,//this will be the text you see in the cluster-icon
+      index=0,
+      dv;
 
+  for(var m=0;m<markers.length;++m){
+    //add the value of the markers prop-property to val
+    val+=Number(parseInt(markers[m].label));
+  }
+  dv = val;
+  while (dv !== 0) {
+    dv = parseInt(dv / 10, 10);
+    index++;
+  }
+
+  index = Math.min(index, numStyles);
+  return {
+    text: val,
+    index: index
+  };
+}
+);
+}
       </script>
 
       <!-- Replace following script src -->
@@ -76,4 +90,3 @@ loc.push(<%=locations%>)
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3gCGu6LVjICMz1Fv_f2gXPmqDAsH4ZBQ&callback=initMap">
       </script>
 </body>
-    <%- include('partials/footer') -%>

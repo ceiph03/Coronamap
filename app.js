@@ -25,14 +25,23 @@ let posts = [];
 //JSON data
 // var locations = require("./JSON/data.json")
 let locations = [] // global var
-CSVToJSON().fromFile("./CSV/03-11-2020.csv").then(source => {
-      for (i = 1; i < source.length; i++) {
-        for (j = 0; j < source[i].Confirmed; j++) {
-          locations.push("{lat: " + source[i].Latitude + ", lng: " + source[i].Longitude + "}")    }
-  }
-  console.log(locations.slice(0,5));
-})
+let cases = [] // global var
+CSVToJSON().fromFile("./COVID-19/csse_covid_19_data/csse_covid_19_daily_reports/03-13-2020.csv").then(source => {
+      for (i = 0; i < source.length; i++) {
+        locations.push("{lat: " + source[i].Latitude + ", lng: " + source[i].Longitude + "}")
+      }
 
+      for (j = 0; j < source.length; j++) {
+        cases.push(source[j].Confirmed.toString())
+      }
+
+  // console.log(locations.slice(0,10));
+  // console.log(locations.length)
+  // console.log(cases.slice(0,10));
+  // console.log(cases.length);
+  // console.log(source.length);
+  // console.log(cases);
+})
 
 // web code
 app.get("/", function(req, res) {
@@ -40,7 +49,8 @@ app.get("/", function(req, res) {
   res.render("home", {
     starting: startingword,
     posts: posts,
-    locations: locations
+    locations: locations,
+    cases: cases
   })
 })
 
