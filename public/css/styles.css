@@ -1,5 +1,7 @@
 #map {
-  height: 80%;
+  height:100%;
+  width:100%;
+  overflow: hidden;
 }
 
 html,
@@ -7,13 +9,18 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  /* overflow: hidden; */
 }
 
 h3 {
   color: Blue;
+  background-color: rgba(0,255,255,0.5);
   font-style: italic;
-  font-size: 14px;
+  font-size: 15px;
   margin: 0;
+  /* position: absolute;
+  left: 10%;
+  bottom: 21%; */
 }
 
 #btn-location {
