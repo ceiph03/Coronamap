@@ -9,7 +9,6 @@ const CSVToJSON = require ("csvtojson");
 const fs = require("fs");
 
 const startingword = "This is the current corona map."
-
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -30,17 +29,9 @@ CSVToJSON().fromFile("./csv/03-13-2020.csv").then(source => {
       for (i = 0; i < source.length; i++) {
         locations.push("{lat: " + source[i].Latitude + ", lng: " + source[i].Longitude + "}")
       }
-
       for (j = 0; j < source.length; j++) {
         cases.push(source[j].Confirmed.toString())
       }
-
-  // console.log(locations.slice(0,10));
-  // console.log(locations.length)
-  // console.log(cases.slice(0,10));
-  // console.log(cases.length);
-  // console.log(source.length);
-  // console.log(cases);
 })
 
 // web code

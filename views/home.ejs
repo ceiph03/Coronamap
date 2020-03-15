@@ -2,91 +2,155 @@
 
 <head>
 
-<style>
-  /* media="screen"> */
-  #map{
-    height: 100%;
+  <style>
+    /* media="screen"> */
+    #map {
+      height: 100%;
 
-    /* width:100%; */
-  }
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding-bottom: 0px;
-  }
-</style>
+      /* width:100%; */
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding-bottom: 0px;
+    }
+  </style>
 
 </head>
 
 <body>
 
-<div id="map"></div>
+  <button id="btn-location">Current</button>
+
+
+  <div id="map"></div>
 
   <script>
-  // Initialize and add the map
-  function initMap() {
 
-  // map options
-    var options = {
-      zoom:4,
-      center:{lat: 40, lng: -96.887}
+   //  let x, y;
+   //  // geolocation
+   //  if (navigator.geolocation) {
+   //    navigator.geolocation.getCurrentPosition(function(position) {
+   //      x = parseFloat(position.coords.latitude.toFixed(2));
+   //      y = parseFloat(position.coords.longitude.toFixed(2));
+   //      console.log(x);
+   //      console.log(y);
+   //    })
+   //  }
+   // else {
+   //  console.log("geolocation is not supported")
+   //    x = 40.0;
+   //    y = -96.0;
+   //  }
+   var map;
+   var btnLocation = document.getElementById("btn-location");
+   var myLocation = {lat: 40, lng: -96};
+
+    // Initialize and add the map
+    function initMap() {
+      if (navigator.geolocation) {
+         navigator.geolocation.getCurrentPosition(function(position) {
+
+           myLocation.lat = position.coords.latitude;
+           myLocation.lng = position.coords.longitude;
+
+           // Added a marker for you to verify your location
+          var myloc = new google.maps.Marker({
+            clickable: false,
+            icon: "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m1.png",
+            // shadow: null,
+            zIndex: 999,
+            position: myLocation,
+            map: map,
+            label: 'me'
+          });
+
+           map.setCenter(myLocation);
+         }, function(){
+           handleLocationError(true, map.getCenter());
+         });
+       }
+      else {
+        handleLocationError(false, map.getCenter());
+      }
+
+      // The map
+      map = new google.maps.Map(
+        document.getElementById('map'), {
+          zoom: 4,
+          center: myLocation,
+          mapTypeId: 'terrain'
+        });
+
+      // labels and makers locations
+      var labels = [];
+      labels.push( <%= cases %> );
+      console.log(labels.slice(1, 5));
+
+      var loc = []
+      loc.push( <%= locations %> )
+
+      var markers = loc.map(function(location, i) {
+        return new google.maps.Marker({
+          position: location,
+          label: labels[i].toString()
+        });
+      });
+
+      // Add a marker clusterer to manage the markers.
+      var markerCluster = new MarkerClusterer(map, markers,
+        // {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+        {
+          imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+        });
+
+      markerCluster.setCalculator(function(markers, numStyles) {
+        var val = 0, //this will be the text you see in the cluster-icon
+          index = 0,
+          dv;
+
+        for (var m = 0; m < markers.length; ++m) {
+          //add the value of the markers prop-property to val
+          val += Number(parseInt(markers[m].label));
+        }
+        dv = val;
+        while (dv !== 0) {
+          dv = parseInt(dv / 10, 10);
+          index++;
+        }
+
+        index = Math.min(index, numStyles);
+        return {
+          text: val,
+          index: index
+        };
+      });
+
     }
 
-  // The map
-    var map = new google.maps.Map(
-        document.getElementById('map'), options);
-
-
-// labels and makers locations
-var labels = [];
-labels.push(<%=cases%>);
-console.log(labels.slice(1,5));
-
-var loc = []
-loc.push(<%=locations%>)
-
-   var markers = loc.map(function(location, i) {
-    return new google.maps.Marker({
-      position: location,
-      label: labels[i].toString()
-      });
-    });
-
-// Add a marker clusterer to manage the markers.
-   var markerCluster = new MarkerClusterer(map, markers,
-       // {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-       {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-
- markerCluster.setCalculator(function(markers, numStyles) {
-  var val=0,//this will be the text you see in the cluster-icon
-      index=0,
-      dv;
-
-  for(var m=0;m<markers.length;++m){
-    //add the value of the markers prop-property to val
-    val+=Number(parseInt(markers[m].label));
-  }
-  dv = val;
-  while (dv !== 0) {
-    dv = parseInt(dv / 10, 10);
-    index++;
-  }
-
-  index = Math.min(index, numStyles);
-  return {
-    text: val,
-    index: index
-  };
+    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+  console.log(browserHasGeolocation ?
+    'Error: The Geolocation service failed.' :
+    'Error: Your browser doesn\'t support geolocation.');
 }
-);
-}
-      </script>
 
-      <!-- Replace following script src -->
-      <!-- <script src="/maps/documentation/javascript/examples/markerclusterer/markerclustererplus@4.0.1.min.js"> -->
-      <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js">
-      </script>
-      <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3gCGu6LVjICMz1Fv_f2gXPmqDAsH4ZBQ&callback=initMap">
-      </script>
+
+btnLocation.addEventListener('click', function() {
+  goToMyLocation();
+});
+
+function goToMyLocation() {
+  map.setCenter(myLocation);
+}
+
+  </script>
+
+  <!-- Replace following script src -->
+  <!-- <script src="/maps/documentation/javascript/examples/markerclusterer/markerclustererplus@4.0.1.min.js"> -->
+  <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js">
+  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3gCGu6LVjICMz1Fv_f2gXPmqDAsH4ZBQ&callback=initMap">
+  </script>
 </body>
