@@ -1,5 +1,5 @@
 #map {
-  height: 100%;
+  height: 80%;
 }
 
 html,
@@ -7,6 +7,13 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+}
+
+h3 {
+  color: Blue;
+  font-style: italic;
+  font-size: 14px;
+  margin: 0;
 }
 
 #btn-location {

@@ -1,11 +1,11 @@
 <%- include('partials/header') -%>
 
-<head>
+<!-- <head>
 
   <style>
     /* media="screen"> */
     #map {
-      height: 100%;
+      height: 80%;
 
       /* width:100%; */
     }
@@ -18,32 +18,15 @@
     }
   </style>
 
-</head>
+</head> -->
 
 <body>
 
   <button id="btn-location">Current</button>
-
-
   <div id="map"></div>
 
   <script>
 
-   //  let x, y;
-   //  // geolocation
-   //  if (navigator.geolocation) {
-   //    navigator.geolocation.getCurrentPosition(function(position) {
-   //      x = parseFloat(position.coords.latitude.toFixed(2));
-   //      y = parseFloat(position.coords.longitude.toFixed(2));
-   //      console.log(x);
-   //      console.log(y);
-   //    })
-   //  }
-   // else {
-   //  console.log("geolocation is not supported")
-   //    x = 40.0;
-   //    y = -96.0;
-   //  }
    var map;
    var btnLocation = document.getElementById("btn-location");
    var myLocation = {lat: 40, lng: -96};
@@ -146,6 +129,18 @@ function goToMyLocation() {
 }
 
   </script>
+<h3>Coronavirus Map</h3>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- First ads -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8965439943903969"
+     data-ad-slot="1300487428"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
   <!-- Replace following script src -->
   <!-- <script src="/maps/documentation/javascript/examples/markerclusterer/markerclustererplus@4.0.1.min.js"> -->
